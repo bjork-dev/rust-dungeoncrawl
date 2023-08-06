@@ -29,14 +29,13 @@ pub struct Health {
     pub max: i32,
 }
 
-
 #[derive(Clone, PartialEq)]
 pub struct Name(pub String);
 
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct WantsToAttack {
     pub attacker: Entity,
-    pub victim: Entity
+    pub victim: Entity,
 }
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct ChasingPlayer;
@@ -49,26 +48,35 @@ pub struct AmuletOfYala;
 
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct ProvidesHealing {
-    pub amount: i32
+    pub amount: i32,
 }
-
 
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct ProvidesDungeonMap;
 
-#[derive(Clone,Debug,PartialEq)]
+#[derive(Clone, PartialEq)]
+pub struct Carried(pub Entity);
+
+
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub struct ActivateItem {
+    pub used_by: Entity,
+    pub item: Entity
+}
+
+#[derive(Clone, Debug, PartialEq)]
 pub struct FieldOfView {
     pub visible_tiles: HashSet<Point>,
     pub radius: i32,
-    pub is_dirty: bool
+    pub is_dirty: bool,
 }
 
 impl FieldOfView {
-    pub fn new(radius:i32) -> Self {
+    pub fn new(radius: i32) -> Self {
         Self {
             visible_tiles: HashSet::new(),
             radius,
-            is_dirty: true
+            is_dirty: true,
         }
     }
 
@@ -76,7 +84,7 @@ impl FieldOfView {
         Self {
             visible_tiles: HashSet::new(),
             radius: self.radius,
-            is_dirty: true
+            is_dirty: true,
         }
     }
 }
