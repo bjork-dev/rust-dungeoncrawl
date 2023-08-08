@@ -5,6 +5,7 @@ const NUM_TILES: usize = (SCREEN_WIDTH * SCREEN_HEIGHT) as usize;
 pub enum TileType {
     Wall,
     Floor,
+    Exit,
 }
 
 pub struct Map {
@@ -29,7 +30,9 @@ impl Map {
     }
 
     pub fn can_enter_tile(&self, point: Point) -> bool {
-        return self.in_bounds(point) && self.tiles[map_idx(point.x, point.y)] == TileType::Floor;
+        return self.in_bounds(point)
+            && (self.tiles[map_idx(point.x, point.y)] == TileType::Floor
+                || self.tiles[map_idx(point.x, point.y)] == TileType::Exit);
     }
 
     pub fn try_idx(&self, point: Point) -> Option<usize> {
@@ -104,13 +107,11 @@ impl BaseMap for Map {
     }
 
     fn get_pathing_distance(&self, idx1: usize, idx2: usize) -> f32 {
-        return DistanceAlg::Pythagoras.distance2d(self.index_to_point2d(idx1), 
-        self.index_to_point2d(idx2));
+        return DistanceAlg::Pythagoras
+            .distance2d(self.index_to_point2d(idx1), self.index_to_point2d(idx2));
     }
 
     fn is_opaque(&self, idx: usize) -> bool {
         return self.tiles[idx] != TileType::Floor;
     }
-
-    
 }

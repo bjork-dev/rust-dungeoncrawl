@@ -13,10 +13,12 @@ pub fn hud(world: &SubWorld) {
 
     let mut draw_batch = DrawBatch::new();
 
-    let player = <(Entity, &Player)>::query()
+    let (player, map_level) = <(Entity, &Player)>::query()
         .iter(world)
-        .find_map(|(entity, _player)| Some(*entity))
+        .find_map(|(entity, _player)| Some((*entity, _player.map_level)))
         .unwrap();
+
+ 
 
     let mut item_query = <(&Item, &Name, &Carried)>::query();
     let mut y = 3;
@@ -38,7 +40,13 @@ pub fn hud(world: &SubWorld) {
     }
 
     draw_batch.target(2);
-    draw_batch.print_centered(1, "Explore the dungeon. Cursor keys to move.");
+    draw_batch.print_centered(
+        1,
+        format!(
+            "Level {} Explore the dungeon. Cursor keys to move.",
+            map_level
+        ),
+    );
 
     draw_batch.bar_horizontal(
         Point::zero(),
@@ -52,6 +60,12 @@ pub fn hud(world: &SubWorld) {
         0,
         format!(" Health {} / {} ", player_health.current, player_health.max),
         ColorPair::new(WHITE, RED),
+    );
+
+    draw_batch.print_color_right(
+        Point::new(SCREEN_WIDTH * 2, 1),
+        map_level + 1,
+        ColorPair::new(YELLOW, BLACK),
     );
 
     draw_batch.submit(10000).expect("bATCH eRROR")
