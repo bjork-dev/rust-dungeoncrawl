@@ -10,7 +10,7 @@ pub struct Template {
     pub entity_type: EntityType,
     pub levels: HashSet<usize>,
     pub frequency: i32,
-    pub name: string,
+    pub name: String,
     pub glyph: char,
     pub provides: Option<Vec<(String, i32)>>,
     pub hp: Option<i32>
