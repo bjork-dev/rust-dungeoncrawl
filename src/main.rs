@@ -4,9 +4,9 @@ mod camera;
 mod components;
 mod map;
 mod map_builder;
-mod spawner;
 mod systems;
 mod turn_state;
+mod spawner;
 mod prelude {
     pub use bracket_lib::prelude::*;
     pub use legion::systems::CommandBuffer;
